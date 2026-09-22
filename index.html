@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday, My Hamster</title>
+<meta name="description" content="A birthday page for my beloved hamster.">
+<style>
+:root {
+  --paper: #ead9b7;
+  --paper-deep: #d0ac72;
+  --paper-strong: #d8c08d;
+  --ink: #342417;
+  --ink-soft: #604335;
+  --rose: #c96d8d;
+  --rose-soft: #f4c0d3;
+  --brown-deep: #2a1a12;
+  --brown-mid: #553825;
+  --gold: #b78347;
+  --shadow: rgba(28, 18, 12, 0.35);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Georgia", "Times New Roman", serif;
+  background: radial-gradient(circle at top, rgba(185, 145, 96, 0.22), transparent 30%),
+              linear-gradient(180deg, #201711 0%, #3a291d 100%);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; display: block; }
+button { font: inherit; }
+
+.page-shell {
+  position: relative;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 26px;
+  overflow-x: hidden;
+}
+
+/* Floating Hearts */
+.floating-hearts {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.heart {
+  position: absolute;
+  color: rgba(255, 170, 197, 0.85);
+  font-size: clamp(1rem, 1vw + 0.7rem, 2rem);
+  animation: floatUp linear infinite, twinkle 1.8s ease-in-out infinite;
+  text-shadow: 0 0 10px rgba(255, 170, 197, 0.6);
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(110vh) scale(0.7); opacity: 0; }
+  12% { opacity: 1; }
+  100% { transform: translateY(-18vh) scale(1.2); opacity: 0; }
+}
+
+@keyframes twinkle {
+  0%, 100% { filter: brightness(0.85); text-shadow: 0 0 6px rgba(255, 170, 197, 0.35); }
+  50% { filter: brightness(1.55); text-shadow: 0 0 18px rgba(255, 190, 215, 0.95), 0 0 30px rgba(255, 135, 180, 0.55); }
+}
+
+/* Portrait Panel */
+.portrait-panel {
+  position: relative;
+  z-index: 1;
+  width: min(980px, 100%);
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  align-items: center;
+  gap: 28px;
+  min-height: 88vh;
+  transition: opacity 0.7s ease, transform 0.7s ease, filter 0.7s ease, visibility 0.7s ease;
+}
+
+.page-shell.opened .portrait-panel {
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.96);
+  filter: saturate(0.7) brightness(0.75);
+  pointer-events: none;
+}
+
+.portrait-frame {
+  position: relative;
+  aspect-ratio: 0.86;
+  border-radius: 28px;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(248, 241, 229, 0.9), rgba(210, 168, 130, 0.75));
+  border: 1px solid rgba(91, 58, 38, 0.25);
+  box-shadow: 0 24px 80px rgba(16, 10, 7, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.portrait-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(38, 23, 18, 0.08), rgba(18, 11, 9, 0.14));
+  pointer-events: none;
+}
+
+.hamster-picture {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Greeting Card */
+.greeting-card {
+  width: min(620px, 100%);
+  padding: 2.6rem 2rem;
+  border-radius: 26px;
+  background: rgba(242, 228, 198, 0.92);
+  border: 1px solid rgba(91, 58, 38, 0.25);
+  box-shadow: 0 24px 80px rgba(16, 10, 7, 0.45);
+  text-align: center;
+  position: relative;
+}
+
+.greeting-card::before,
+.greeting-card::after {
+  content: "♥";
+  position: absolute;
+  color: rgba(214, 106, 141, 0.6);
+  font-size: 2rem;
+  top: 18px;
+}
+
+.greeting-card::before { left: 20px; }
+.greeting-card::after { right: 20px; }
+
+.opening-kicker {
+  margin: 0 0 10px;
+  letter-spacing: 0.16em;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.greeting-card h1 {
+  margin: 0;
+  font-size: clamp(2.7rem, 5vw, 5.2rem);
+  line-height: 1;
+  color: var(--brown-deep);
+}
+
+.opening-message {
+  margin: 18px 0 28px;
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
+}
+
+.letter-button {
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #5a3528, #7d4c34);
+  color: #f8ead8;
+  padding: 0.95rem 1.7rem;
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 12px 22px rgba(43, 25, 15, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.letter-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 26px rgba(43, 25, 15, 0.28);
+  filter: brightness(1.04);
+}
+
+/* Letter Scene */
+.letter-scene {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(18px, 4vw, 42px);
+  background: rgba(20, 12, 10, 0.7);
+  opacity: 0;
+  visibility: hidden;
+  z-index: 5;
+  transition: opacity 0.9s ease, visibility 0.9s ease;
+  pointer-events: none;
+}
+
+.page-shell.opened .letter-scene {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.letter-paper {
+  position: relative;
+  width: min(760px, 100%);
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+  background: linear-gradient(180deg, rgba(247, 236, 213, 0.98), rgba(227, 202, 162, 0.96)),
+              repeating-linear-gradient(0deg, rgba(98, 73, 52, 0.025), rgba(98, 73, 52, 0.025) 2px, rgba(255, 255, 255, 0.04) 2px, rgba(255, 255, 255, 0.04) 4px);
+  border: 1px solid rgba(90, 61, 43, 0.35);
+  box-shadow: 0 28px 80px rgba(16, 10, 7, 0.42);
+  border-radius: 18px;
+  padding: clamp(22px, 4vw, 52px);
+  filter: drop-shadow(0 18px 28px rgba(18, 11, 10, 0.28));
+  scroll-behavior: smooth;
+}
+
+.letter-paper::before {
+  content: "";
+  position: absolute;
+  inset: 18px 22px 18px 22px;
+  border: 1px solid rgba(100, 72, 48, 0.22);
+  border-radius: 10px;
+  pointer-events: none;
+  background: radial-gradient(circle at top left, rgba(110, 81, 54, 0.08), transparent 32%);
+}
+
+.letter-paper::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 12% 12%, rgba(112, 72, 40, 0.18), transparent 12%),
+              radial-gradient(circle at 88% 16%, rgba(112, 72, 40, 0.18), transparent 12%),
+              radial-gradient(circle at 10% 90%, rgba(112, 72, 40, 0.14), transparent 14%),
+              radial-gradient(circle at 92% 90%, rgba(112, 72, 40, 0.14), transparent 14%);
+  mix-blend-mode: multiply;
+}
+
+.paper-ornament {
+  position: absolute;
+  color: rgba(114, 87, 64, 0.28);
+  font-size: 2.6rem;
+  top: 18px;
+}
+
+.paper-left { left: 24px; }
+.paper-right { right: 24px; }
+
+.letter-topline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 18px 22px;
+  border-bottom: 1px solid rgba(74, 48, 32, 0.25);
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  font-weight: 700;
+}
+
+.date {
+  font-style: italic;
+  letter-spacing: 0.06em;
+  text-transform: none;
+}
+
+.letter-body {
+  position: relative;
+  padding: 34px 18px 10px;
+  font-size: clamp(1.15rem, 1.5vw, 1.5rem);
+  line-height: 1.9;
+  color: var(--ink);
+  font-style: italic;
+  max-width: 780px;
+  margin: 0 auto;
+  text-shadow: 0 0 0.5px rgba(44, 27, 18, 0.15);
+  font-family: "Georgia", "Times New Roman", serif;
+}
+
+.letter-body p:first-child::first-letter {
+  font-size: 1.6em;
+  font-weight: 700;
+  color: rgba(61, 37, 24, 0.92);
+}
+
+.letter-body p { margin: 0 0 22px; }
+
+.inline-heart {
+  color: rgba(157, 66, 82, 0.9);
+  font-size: 1.2em;
+}
+
+.love-note {
+  text-align: center;
+  color: rgba(86, 49, 35, 0.92);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.signature {
+  text-align: right;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+}
+
+.next-button {
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #5a3528, #7d4c34);
+  color: #f8ead8;
+  padding: 0.95rem 1.7rem;
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 12px 22px rgba(43, 25, 15, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  margin-top: 10px;
+}
+
+.next-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 26px rgba(43, 25, 15, 0.28);
+  filter: brightness(1.04);
+}
+
+/* Celebration Scenes */
+.celebration-scene {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(18px, 4vw, 42px);
+  opacity: 0;
+  visibility: hidden;
+  z-index: 6;
+  transition: opacity 0.9s ease, visibility 0.9s ease;
+  pointer-events: none;
+}
+
+.page-shell.cake-visible .cake-scene {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.cake-scene {
+  background: radial-gradient(circle at 50% 40%, rgba(66, 40, 30, 0.7), transparent 40%),
+              linear-gradient(180deg, #1f1410, #0e0806);
+}
+
+.celebration-content {
+  text-align: center;
+  color: #f8ead8;
+  max-width: 720px;
+}
+
+.scene-kicker {
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  color: rgba(248, 234, 216, 0.7);
+  margin-bottom: 12px;
+}
+
+.celebration-content h2 {
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  margin: 0 0 26px;
+  line-height: 1.05;
+}
+
+/* Cake */
+.cake {
+  position: relative;
+  width: 240px;
+  height: 260px;
+  margin: 0 auto 26px;
+}
+
+.cake-plate {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 280px;
+  height: 20px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #d9c3a4, #a67c52);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.35);
+}
+
+.cake-layer {
+  position: absolute;
+  left: 10%;
+  width: 80%;
+  border-radius: 14px;
+}
+
+.cake-bottom {
+  bottom: 22px;
+  height: 104px;
+  background: #2e5f8a;
+}
+
+.cake-top {
+  bottom: 126px;
+  height: 58px;
+  border-radius: 16px 16px 10px 10px;
+  background: #65a8e7;
+}
+
+.icing {
+  position: absolute;
+  left: 13%;
+  bottom: 160px;
+  width: 74%;
+  height: 32px;
+  border-radius: 18px 18px 10px 10px;
+  background: #eaf6ff;
+  box-shadow: 0 8px 0 #a8d4f5;
+}
+
+.icing::after {
+  content: "";
+  position: absolute;
+  inset: 20px 12% auto;
+  height: 28px;
+  background: #eaf6ff;
+  clip-path: polygon(0 0, 100% 0, 94% 100%, 78% 100%, 70% 30%, 58% 100%, 42% 100%, 33% 30%, 22% 100%, 8% 100%);
+}
+
+.candle {
+  position: absolute;
+  z-index: 2;
+  left: calc(50% - 9px);
+  bottom: 190px;
+  width: 18px;
+  height: 68px;
+  border-radius: 8px;
+  background: repeating-linear-gradient(135deg, #f5fbff 0 8px, #4d8fd7 8px 14px);
+}
+
+.flame {
+  position: absolute;
+  z-index: 3;
+  left: calc(50% - 12px);
+  bottom: 252px;
+  width: 24px;
+  height: 38px;
+  border-radius: 50% 50% 50% 0;
+  background: #ffd56b;
+  box-shadow: 0 0 18px #ffbb4a, 0 0 38px rgba(255, 155, 54, 0.8);
+  transform: rotate(-45deg);
+  animation: flame-flicker 0.7s ease-in-out infinite alternate;
+}
+
+.candle-blown .flame {
+  opacity: 0;
+  transform: translateY(-18px) scale(0.2) rotate(-45deg);
+  transition: 0.5s ease;
+}
+
+.cake-message,
+.flower-message {
+  color: #f2d6ca;
+  font-size: 1.05rem;
+}
+
+.cake-button:disabled {
+  cursor: default;
+  opacity: 0.65;
+}
+
+@keyframes flame-flicker {
+  to { transform: rotate(-42deg) scale(1.08); }
+}
+
+/* Flowers Scene */
+.flowers-scene {
+  background: radial-gradient(circle at 50% 38%, rgba(34, 83, 73, 0.72), transparent 31%),
+              radial-gradient(circle at 50% 50%, #142d31, #031019 74%);
+}
+
+.page-shell.flowers-visible .flowers-scene {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.flowers-scene .celebration-content { width: min(700px, 100%); }
+.flowers-scene h2 { color: #fff3dd; }
+.flowers-scene .scene-kicker { color: #f0b38e; }
+
+.flower-garden {
+  position: relative;
+  width: min(560px, 88vw);
+  height: auto;
+  margin: 26px auto 0;
+}
+
+.tulip-art {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.26));
+  animation: simple-tulip-sway 7s ease-in-out infinite;
+}
+
+@keyframes simple-tulip-sway {
+  0%, 100% { transform: rotate(-1deg) translateY(0); }
+  50% { transform: rotate(1deg) translateY(-3px); }
+}
+
+/* Falling Petals */
+.falling-petal {
+  position: absolute;
+  width: 12px;
+  height: 20px;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  background: radial-gradient(circle at 30% 30%, #fff, #b8d8f0 40%, #4a8ac4);
+  pointer-events: none;
+  animation: bouquet-petal-fall var(--petal-duration, 4.5s) ease-in forwards;
+}
+
+@keyframes bouquet-petal-fall {
+  0% { opacity: 0; transform: translate(0, 0) rotate(0); }
+  12% { opacity: 0.95; }
+  100% { opacity: 0; transform: translate(var(--petal-x), var(--petal-y)) rotate(var(--petal-rotation)); }
+}
+
+/* Media Queries */
+@media (max-width: 700px) {
+  .page-shell { padding: 14px 12px 24px; }
+  .portrait-panel { grid-template-columns: 1fr; min-height: auto; gap: 18px; padding-top: 8px; }
+  .portrait-frame { width: min(100%, 360px); aspect-ratio: 0.82; margin: 0 auto; border-radius: 22px; }
+  .greeting-card { width: 100%; padding: 2rem 1rem 1.8rem; border-radius: 22px; }
+  .greeting-card h1 { font-size: clamp(2.25rem, 11vw, 3.3rem); line-height: 1.05; }
+  .opening-message { margin: 16px 0 24px; font-size: 0.98rem; }
+  .letter-button { width: 100%; max-width: 280px; padding: 0.9rem 1rem; }
+  .heart { font-size: clamp(1rem, 5vw, 1.6rem); }
+  .letter-topline { flex-direction: column; gap: 8px; text-align: center; }
+  .letter-paper { max-height: calc(100vh - 30px); padding: 22px 16px; border-radius: 14px; }
+  .letter-body { padding: 28px 4px 8px; font-size: 1.02rem; line-height: 1.8; }
+  .paper-ornament { font-size: 2rem; top: 14px; }
+  .paper-left { left: 16px; }
+  .paper-right { right: 16px; }
+  .celebration-scene { padding: 18px 14px; }
+  .flowers-scene .celebration-content { padding: 42px 0 34px; }
+  .flowers-scene h2 { font-size: clamp(1.75rem, 8vw, 2.6rem); }
+  .cake { transform: scale(0.86); margin-top: 8px; margin-bottom: -8px; }
+  .flower-garden { transform: scale(0.8); transform-origin: top center; margin: 4px auto -64px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+</style>
+</head>
+<body>
+<div class="page-shell" id="pageShell">
+  <!-- Floating Hearts -->
+  <div class="floating-hearts" aria-hidden="true" id="floatingHearts"></div>
+
+  <!-- Portrait & Greeting -->
+  <div class="portrait-panel">
+    <div class="portrait-frame">
+      <svg class="hamster-picture" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="100" cy="130" rx="70" ry="60" fill="#f4c542" stroke="#8b5a2b" stroke-width="4"/>
+        <circle cx="55" cy="70" r="25" fill="#f4c542" stroke="#8b5a2b" stroke-width="4"/>
+        <circle cx="145" cy="70" r="25" fill="#f4c542" stroke="#8b5a2b" stroke-width="4"/>
+        <circle cx="55" cy="70" r="15" fill="#ffb6c1"/>
+        <circle cx="145" cy="70" r="15" fill="#ffb6c1"/>
+        <circle cx="75" cy="105" r="10" fill="#000"/>
+        <circle cx="125" cy="105" r="10" fill="#000"/>
+        <circle cx="78" cy="102" r="3" fill="#fff"/>
+        <circle cx="128" cy="102" r="3" fill="#fff"/>
+        <ellipse cx="100" cy="125" rx="8" ry="5" fill="#ff9999"/>
+        <path d="M90 135 Q100 150 110 135" stroke="#000" stroke-width="3" fill="none"/>
+        <line x1="40" y1="115" x2="20" y2="110" stroke="#000" stroke-width="2"/>
+        <line x1="40" y1="125" x2="20" y2="125" stroke="#000" stroke-width="2"/>
+        <line x1="160" y1="115" x2="180" y2="110" stroke="#000" stroke-width="2"/>
+        <line x1="160" y1="125" x2="180" y2="125" stroke="#000" stroke-width="2"/>
+        <circle cx="65" cy="120" r="8" fill="#ffb6c1" opacity="0.6"/>
+        <circle cx="135" cy="120" r="8" fill="#ffb6c1" opacity="0.6"/>
+      </svg>
+    </div>
+    <div class="greeting-card">
+      <p class="opening-kicker">To My Little Hamster</p>
+      <h1>Happy Happy Happy Birthday My Hamster!</h1>
+      <p class="opening-message">Every birthday deserves a letter. Open it.</p>
+      <button class="letter-button" id="openLetter">Open the Letter</button>
+    </div>
+  </div>
+
+  <!-- Letter Scene -->
+  <div class="letter-scene" id="letterScene">
+    <div class="letter-paper" id="letterCard">
+      <div class="paper-ornament paper-left">✧</div>
+      <div class="paper-ornament paper-right">✧</div>
+      <div class="letter-topline">
+        <span></span>
+        <span class="date">September 17, 2026</span>
+      </div>
+      <div class="letter-body">
+        <p>To my dearest little hamster,</p>
+        <p>Happy happy happy happy happy birthday! I want to say it many times because you deserve all the happiness in the world. Happy birthday, my love. Happy birthday, my precious. Happy birthday, my everything.</p>
+        <p>When you came into my life, everything became valuable. You brought joy, warmth, and meaning to my days. Every moment with you is a treasure.</p>
+        <p>I wish you a long life, good health, and endless blessings. Thank you for your love, your tiny cuddles, and for always being there with me. I am so grateful to have you in my life, and I hope we can celebrate many more birthdays together.</p>
+        <p>Enjoy your day, my little one. Do not be sad just because we don't have a big celebration. What matters is that I am here with you on your special day. Even if our celebration is simple, I hope you can feel how special and important you are to me.</p>
+        <p>I want you to know that I love you so much, more than you could ever imagine. I love you more than words can explain, and I care about you more than you know. You are one of the most important beings in my life, and I would always choose to be there for you no matter what happens.</p>
+        <p>I know that you have many problems that you don't always tell me about. You can always open up to me about anything. I may not always have the perfect answer, but I promise that I will listen and try my best to understand you.</p>
+        <p>Please do not keep everything inside, love. You do not have to face your problems alone. Whatever happens, I will always be here to support you and remind you that you are not alone.</p>
+        <p>I hope that this new chapter of your life will bring you more happiness, peace, success, and beautiful memories. Always take care of yourself and never forget how loved and appreciated you are.</p>
+        <p class="love-note">I love you so much, my hamster. Again, Happy happy happy happy birthday! Enjoy your day with me hehe.</p>
+        <p class="signature">— From: Your Human <span class="inline-heart">♥</span></p>
+        <button class="next-button" id="showCake">I finished reading</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cake Scene -->
+  <section class="celebration-scene cake-scene" id="cakeScene" aria-hidden="true">
+    <div class="celebration-content">
+      <p class="scene-kicker">A little birthday wish</p>
+      <h2>Make a wish, little hamster</h2>
+      <div class="cake" aria-label="Birthday cake with a lit candle">
+        <div class="flame"></div>
+        <div class="candle"></div>
+        <div class="icing"></div>
+        <div class="cake-layer cake-top"></div>
+        <div class="cake-layer cake-bottom"></div>
+        <div class="cake-plate"></div>
+      </div>
+      <p class="cake-message" id="cakeMessage">Tap the button and blow out your candle, little one.</p>
+      <button class="next-button cake-button" id="blowCandle">Blow the Candle</button>
+    </div>
+  </section>
+
+  <!-- Flowers Scene -->
+  <section class="celebration-scene flowers-scene" id="flowersScene" aria-hidden="true">
+    <div class="celebration-content">
+      <p class="scene-kicker">For you, my hamster</p>
+      <h2>A little bouquet to brighten your day, my hamster.</h2>
+      <div class="flower-garden" aria-label="Blue tulip bouquet">
+        <svg class="tulip-art simple-tulips" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg">
+          <!-- Stems -->
+          <path d="M200 480 Q195 320 180 220" stroke="#3b7a4a" stroke-width="8" fill="none" stroke-linecap="round"/>
+          <path d="M200 480 Q205 320 220 220" stroke="#3b7a4a" stroke-width="8" fill="none" stroke-linecap="round"/>
+          <path d="M200 480 Q200 320 200 180" stroke="#3b7a4a" stroke-width="8" fill="none" stroke-linecap="round"/>
+          <!-- Leaves -->
+          <path d="M200 400 Q120 380 100 300 Q160 320 200 380 Z" fill="#4a8b5a"/>
+          <path d="M200 400 Q280 380 300 300 Q240 320 200 380 Z" fill="#4a8b5a"/>
+          <path d="M200 340 Q140 320 130 250 Q180 270 200 320 Z" fill="#5a9b6a"/>
+          <path d="M200 340 Q260 320 270 250 Q220 270 200 320 Z" fill="#5a9b6a"/>
+          <!-- Tulip 1 (left) -->
+          <path d="M150 220 Q130 160 150 110 Q170 160 190 220 Q170 240 150 220 Z" fill="#4a90d9"/>
+          <path d="M150 220 Q140 170 150 130 Q160 170 160 220 Z" fill="#6aa8e8" opacity="0.7"/>
+          <!-- Tulip 2 (right) -->
+          <path d="M230 220 Q210 160 230 110 Q250 160 270 220 Q250 240 230 220 Z" fill="#4a90d9"/>
+          <path d="M230 220 Q220 170 230 130 Q240 170 240 220 Z" fill="#6aa8e8" opacity="0.7"/>
+          <!-- Tulip 3 (center, tallest) -->
+          <path d="M180 180 Q160 110 180 50 Q200 110 220 180 Q200 210 180 180 Z" fill="#3a80c9"/>
+          <path d="M180 180 Q170 120 180 70 Q190 120 190 180 Z" fill="#5a9ee0" opacity="0.7"/>
+          <!-- Ribbon -->
+          <path d="M150 460 Q200 440 250 460 L250 480 Q200 460 150 480 Z" fill="#d94a7a"/>
+          <path d="M150 460 Q170 470 150 490" stroke="#d94a7a" stroke-width="6" fill="none"/>
+          <path d="M250 460 Q230 470 250 490" stroke="#d94a7a" stroke-width="6" fill="none"/>
+        </svg>
+      </div>
+      <p class="flower-message">Like these tulips, you make every day feel brighter and more beautiful, my hamster.</p>
+      <p class="flower-signature">Happy Birthday my hamster! I love you so much, squeak!!!</p>
+    </div>
+  </section>
+</div>
+
+<script>
+// Floating Hearts
+const heartContainer = document.getElementById('floatingHearts');
+if (heartContainer) {
+  const heartSymbols = ['❤', '♡', '♥', '❥', '✦'];
+  for (let i = 0; i < 18; i += 1) {
+    const heart = document.createElement('span');
+    heart.className = 'heart';
+    heart.textContent = heartSymbols[i % heartSymbols.length];
+    heart.style.left = `${Math.random() * 100}%`;
+    heart.style.animationDuration = `${12 + Math.random() * 10}s`;
+    heart.style.animationDelay = `${Math.random() * 7}s`;
+    heart.style.fontSize = `${Math.random() * 16 + 18}px`;
+    heartContainer.appendChild(heart);
+  }
+}
+
+// Elements
+const openLetter = document.getElementById('openLetter');
+const pageShell = document.getElementById('pageShell');
+const letterCard = document.getElementById('letterCard');
+const showCake = document.getElementById('showCake');
+const blowCandle = document.getElementById('blowCandle');
+const cakeMessage = document.getElementById('cakeMessage');
+const cakeScene = document.getElementById('cakeScene');
+const flowersScene = document.getElementById('flowersScene');
+
+// Open Letter
+if (openLetter && pageShell && letterCard) {
+  openLetter.addEventListener('click', () => {
+    pageShell.classList.add('opened');
+    letterCard.scrollTop = 0;
+  });
+}
+
+// Show Cake
+if (showCake && pageShell && cakeScene && letterCard) {
+  showCake.addEventListener('click', () => {
+    pageShell.classList.add('cake-visible');
+    cakeScene.setAttribute('aria-hidden', 'false');
+    letterCard.scrollTop = 0;
+  });
+}
+
+// Blow Candle -> Show Flowers
+if (blowCandle && pageShell && cakeScene && flowersScene) {
+  blowCandle.addEventListener('click', () => {
+    pageShell.classList.add('candle-blown');
+    cakeMessage.textContent = 'Wish made. These flowers are for you, my hamster.';
+    blowCandle.disabled
