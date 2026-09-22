@@ -743,4 +743,34 @@ if (blowCandle && pageShell && cakeScene && flowersScene) {
   blowCandle.addEventListener('click', () => {
     pageShell.classList.add('candle-blown');
     cakeMessage.textContent = 'Wish made. These flowers are for you, my hamster.';
-    blowCandle.disabled
+    blowCandle.disabled = true;
+    window.setTimeout(() => {
+      pageShell.classList.add('flowers-visible');
+      flowersScene.setAttribute('aria-hidden', 'false');
+    }, 1400);
+  });
+}
+
+// Falling Petals on Bouquet Click
+const bouquetArt = document.querySelector('.simple-tulips');
+if (bouquetArt) {
+  bouquetArt.addEventListener('click', () => {
+    const garden = bouquetArt.closest('.flower-garden');
+    if (!garden) return;
+    for (let i = 0; i < 12; i += 1) {
+      const petal = document.createElement('span');
+      petal.className = 'falling-petal';
+      petal.style.left = `${35 + Math.random() * 30}%`;
+      petal.style.top = `${22 + Math.random() * 30}%`;
+      petal.style.setProperty('--petal-x', `${(Math.random() - 0.5) * 180}px`);
+      petal.style.setProperty('--petal-y', `${90 + Math.random() * 150}px`);
+      petal.style.setProperty('--petal-rotation', `${Math.random() * 260 - 130}deg`);
+      petal.style.setProperty('--petal-duration', `${3.5 + Math.random() * 2}s`);
+      garden.appendChild(petal);
+      window.setTimeout(() => petal.remove(), 6000);
+    }
+  });
+}
+</script>
+</body>
+</html>
